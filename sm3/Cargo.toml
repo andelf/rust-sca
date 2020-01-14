@@ -1,0 +1,28 @@
+[package]
+name = "sm3"
+version = "0.1.0"
+authors = ["andelf <andelf@gmail.com>"]
+license = "MIT OR Apache-2.0"
+description = "SM3 hash function"
+documentation = "https://docs.rs/sm3"
+repository = "https://github.com/andelf/rust-sca"
+edition = "2018"
+keywords = ["crypto", "sm3", "hash", "digest"]
+categories = ["cryptography"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+digest = "0.8"
+block-buffer = "0.7"
+# simd = { version = "0.1", package = "fake-simd" }
+# opaque-debug = "0.2"
+# libc = { version = "0.2", optional = true }
+
+[dev-dependencies]
+digest = { version = "0.8", features = ["dev"] }
+hex-literal = "0.1"
+
+[features]
+default = ["std"]
+std = ["digest/std"]
