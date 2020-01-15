@@ -1,3 +1,4 @@
+#![no_std]
 mod consts;
 mod sm3;
 mod utils;
