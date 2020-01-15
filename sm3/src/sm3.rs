@@ -12,7 +12,7 @@ type Block = GenericArray<u8, BlockSize>;
 
 #[derive(Clone)]
 struct EngineState {
-    h: [u32; 8],
+    h: [u32; STATE_LEN],
 }
 
 impl EngineState {

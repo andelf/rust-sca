@@ -2,36 +2,37 @@ use block_buffer::byteorder::{ByteOrder, BE};
 
 use crate::consts::{T_0, T_1};
 
-#[inline(always)]
+#[inline]
 fn ff0(x: u32, y: u32, z: u32) -> u32 {
     x ^ y ^ z
 }
 
-#[inline(always)]
+#[inline]
 fn ff1(x: u32, y: u32, z: u32) -> u32 {
     (x & y) | (x & z) | (y & z)
 }
 
-#[inline(always)]
+#[inline]
 fn gg0(x: u32, y: u32, z: u32) -> u32 {
     x ^ y ^ z
 }
 
-#[inline(always)]
+#[inline]
 fn gg1(x: u32, y: u32, z: u32) -> u32 {
     (x & y) | (!x & z)
 }
 
-#[inline(always)]
+#[inline]
 fn p0(x: u32) -> u32 {
     x ^ x.rotate_left(9) ^ x.rotate_left(17)
 }
 
-#[inline(always)]
+#[inline]
 fn p1(x: u32) -> u32 {
     x ^ x.rotate_left(15) ^ x.rotate_left(23)
 }
 
+#[inline]
 fn sm3_digest_w(state: &mut [u32; 8], w: &[u32; 68], w_prime: &[u32; 64]) {
     let [mut a, mut b, mut c, mut d, mut e, mut f, mut g, mut h] = *state;
     for j in 0..=15 {
