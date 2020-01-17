@@ -1,10 +1,10 @@
 //! Test vectors are from GM/T 0002-2012
 #![no_std]
 extern crate block_cipher_trait;
-extern crate sm4;
+extern crate sms4;
 
 use block_cipher_trait::BlockCipher;
-use sm4::Sm4;
+use sms4::Sm4;
 
 #[test]
 fn sm4_example_1() {

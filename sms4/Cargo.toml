@@ -1,10 +1,10 @@
 [package]
-name = "sm4"
+name = "sms4"
 version = "0.1.0"
 authors = ["andelf <andelf@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "SM4 block cipher algorithm"
-documentation = "https://docs.rs/sm4"
+documentation = "https://docs.rs/sms4"
 repository = "https://github.com/andelf/rust-sca"
 keywords = ["crypto", "sm4", "block-cipher"]
 categories = ["cryptography"]
