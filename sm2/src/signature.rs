@@ -15,24 +15,31 @@
 // You should have received a copy of the GNU General Public License
 // along with libsm.  If not, see <http://www.gnu.org/licenses/>.
 
-use super::ecc::*;
-use super::field::FieldElem;
+use std::fmt;
+use byteorder::{BigEndian, WriteBytesExt};
+use digest::Digest;
 use num_bigint::BigUint;
 use num_traits::*;
 use sm3::Sm3;
-use digest::Digest;
 
-use yasna;
-
-use byteorder::{BigEndian, WriteBytesExt};
+use super::ecc::{EccCtx, Point};
+use super::field::FieldElem;
 
 pub type Pubkey = super::ecc::Point;
-type Point = super::ecc::Point;
 pub type Seckey = BigUint;
 
 pub struct Signature {
     r: BigUint,
     s: BigUint,
+}
+
+impl fmt::Debug for Signature {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.debug_struct("Signature")
+            .field("r", &format!("{:x}", self.r))
+            .field("s", &format!("{:x}", self.s))
+            .finish()
+    }
 }
 
 impl Signature {
@@ -121,7 +128,6 @@ impl SigCtx {
         let (mut x_a, mut y_a) = (x_a.to_bytes(), y_a.to_bytes());
         prepend.append(&mut x_a);
         prepend.append(&mut y_a);
-
 
         let mut hasher = Sm3::new();
         hasher.input(&prepend[..]);
@@ -332,6 +338,32 @@ mod tests {
         let sk_v = ctx.serialize_seckey(&sk);
         let new_sk = ctx.load_seckey(&sk_v[..]).unwrap();
         assert_eq!(new_sk, sk);
+    }
+
+    #[test]
+    fn test_part5_a_1() {
+        let message: &[u8] = b"6D65737361676520646967657374";
+        let sk = BigUint::from_slice(&[
+            0x4DF7C5B8, 0x42FB81EF, 0x2860B51A, 0x88939369, 0xC6D39F95, 0x3F36E38A, 0x7B2144B1,
+            0x3945208F,
+        ]);
+
+        let curve = EccCtx::new();
+        let ctx = SigCtx::new();
+
+        let t = ctx.serialize_seckey(&sk);
+        // 3945208f7b2144b13f36e38ac6d39f95889393692860b51a42fb81ef4df7c5b8
+        println!("ser => {:?}", hex::encode(t));
+
+        let pk = ctx.pk_from_sk(&sk);
+        let raw_pk = curve.point_to_bytes(&pk, false);
+        println!("pk => {:?}", hex::encode(raw_pk));
+        // x = 09F9DF31 1E5421A1 50DD7D16 1E4BC5C6 72179FAD 1833FC07 6BB08FF3 56F35020
+        // y = CCEA490C E26775A5 2DC6EA71 8CC1AA60 0AED05FB F35E084A 6632F607 2DA9AD13
+
+
+        let sig = ctx.sign(message, &sk, &pk);
+        println!("sig => {:?}", sig);
     }
 
     #[test]
