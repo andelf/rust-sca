@@ -1,8 +1,14 @@
 [package]
 name = "sm2"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["andelf <andelf@gmail.com>"]
+license = "MIT OR Apache-2.0"
+description = "SM2 signature"
+documentation = "https://docs.rs/sm2"
+repository = "https://github.com/andelf/rust-sca"
 edition = "2018"
+keywords = ["crypto", "sm2", "signature"]
+categories = ["cryptography"]
 
 [dependencies]
 byteorder = "~1.3"
